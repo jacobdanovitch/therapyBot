@@ -18,7 +18,7 @@ class Home extends Component{
   render(){
     return(
       <div>
-        <iframe style={{width: '100%', height: '100vh', marginTop: '-1px'}} scrolling='no' className='iframeChat'
+        <iframe style={{maxWidth: '100%', height: '100vh', marginTop: '-1px'}} scrolling='no' className='iframeChat'
         src='https://webchat.botframework.com/embed/therapybot-hackthenorth?s=iZnsMGzDq9g.cwA.YGA.n1YcNdK39lS7Tn6n3qF-ZMR0YKEj6quUUqnGlTSWruI'>
         </iframe>
       </div>
