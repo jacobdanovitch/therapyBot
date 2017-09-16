@@ -1,0 +1,23 @@
+*{
+  margin:0 auto;
+  overflow: hidden;
+}
+body{
+  width: 100%;
+  min-height: 100%;
+  overflow: hidden;
+}
+html{
+  width: 100%;
+  min-height:100%;
+}
+#app{
+  width:100%;
+  min-height:100%;
+}
+.iframeChat{
+  border:none;
+  height:500px;
+  width: 500px;
+  margin-top: 10px;
+}
