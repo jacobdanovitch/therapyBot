@@ -3,6 +3,7 @@ import {Link} from "react-router";
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux'
 import {selectUser} from '../actions/index'
+import axios from 'axios'
 
 class Home extends Component{
   constructor(props){
