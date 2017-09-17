@@ -24,4 +24,10 @@ app.post('/image', (req, res) => {
     // })
 })
 
+app.post('/audio', (req, res) => {
+    console.log(req.body)
+
+    
+})
+
 app.listen(PORT, () => console.log(`Server is listening on PORT ${PORT}`))
