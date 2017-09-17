@@ -32,7 +32,7 @@ export default class WebCamComponent extends Component {
         <Webcam
           style={{position: 'absolute', right: '5%', opacity: '0'}}
           ref={this.setRef}
-          audio={true}
+          audio={false}
           height={100}
           width={125}
           screenshotFormat="image/jpeg"

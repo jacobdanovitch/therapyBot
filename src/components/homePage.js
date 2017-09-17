@@ -24,6 +24,7 @@ export default class HomePage extends Component{
       }],
     }
   }
+
   getMessage(){
     return fetch('https://directline.botframework.com/v3/directline/conversations/'+this.state.conversationId+'/activities?'+this.state.activityId, {
         method: 'GET',
@@ -87,6 +88,7 @@ export default class HomePage extends Component{
         console.error(error);
     });
   }
+
   getToken(){
     return fetch('https://api.cognitive.microsoft.com/sts/v1.0/issueToken', {
         method: 'POST',
@@ -123,30 +125,19 @@ export default class HomePage extends Component{
   }
 
   onStop(recordedBlob){
-    let body = new FormData();
-    let finalResult = ''
-    body.append('fname', 'communication.wav')
-    body.append('audio', recordedBlob)
+    console.log(recordedBlob)
+    let {blobURL} = recordedBlob
 
-    return fetch('http://localhost:3000/audio',
-    // fetch('')
-      {
-        method: 'POST',
-        headers:{
-         "Content-Type":'multipart/form-data'
-         } ,
-         body :body
-       }
-     ).then(response=>{
-       if (response.status != 200){
-           return
-       }
-       else{
-           return response.json();
-       }
-     }).then(responseJson=>{
-       console.log(responseJson)
-     })
+    fetch('http://localhost:3000/audio', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({url: blobURL})
+    }).then(res => res.json())
+    .then(data => console.log(data))
+    .catch(err => console.log(err))
+    // get the process URL
+    // 7fbc1e42c5ce8eb2e10506c015298b05
+
   }
 
   handleKeyPress(event){
@@ -154,6 +145,7 @@ export default class HomePage extends Component{
       this.sendMsg()
     }
   }
+  
   sendMsg(){
     if(this.state.inputTxt.trim().length > 0){
       let tmp = this.state.messages.slice()
@@ -205,11 +197,8 @@ export default class HomePage extends Component{
             onStop={this.onStop.bind(this)}
             strokeColor="#000000"
             backgroundColor="#f75172" />
-
         </div>
-
       </div>
-
     );
   }
 }
