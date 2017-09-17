@@ -5,6 +5,7 @@
 body{
   width: 100%;
   min-height: 100%;
+  background:#f9e484;
 }
 html{
   width: 100%;
@@ -52,8 +53,9 @@ html{
 
 
 .chatbox {
-  min-height: 500px;
+  height: 500px;
   width: 75%;
+  overflow: auto;
   background-color: #efefef;
 }
 .inputField{

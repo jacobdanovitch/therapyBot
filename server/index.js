@@ -3,6 +3,7 @@ const http = require('http')
 const request = require('request')
 const requestPromise = require('request-promise')
 const bodyParser = require('body-parser')
+const path = require('path')
 const cors = require('cors')
 const fs = require('fs')
 const upload = require('express-fileupload')
@@ -30,8 +31,19 @@ app.get('/', (req, res)=>{
   res.send('welcome')
 })
 app.post('/image', (req, res) => {
-    console.log(req.body)
-    console.log(Object.keys(req.body.image))
+    console.log(req.files)
+    uploadFile = req.files.photo
+    uploadFile.mv('./userPictures/'+uploadFile.name, function(err) {
+        if (err) {
+		        console.log(err)
+            res.status(500).send(err);
+        }
+        else {
+            res.status(200).json('File uploaded!');
+        }
+    });
+    // fs.writeFile('./images/emotion.jpg', image, err => {
+    //     if (err) console.log(err)
 
 })
 app.post('/message', (req, res)=>{
@@ -42,7 +54,6 @@ app.post('/message', (req, res)=>{
        if (err) {
          console.error(err);
        } else {
-         console.log(JSON.stringify(response, null, 2));
          res.json(response.output.text)
        }
   });

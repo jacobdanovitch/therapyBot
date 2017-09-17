@@ -5,12 +5,14 @@ import {ReactMic} from 'react-mic';
 import WebCamComponent from './webcam'
 import 'isomorphic-fetch'
 
+let chatBoxField
 export default class HomePage extends Component{
   constructor(){
     super()
     this.state={
       recordVoice: false,
       buttonTxt: 'Start',
+      mood:'',
       token: '',
       inputTxt:'',
       activityId:'',
@@ -20,7 +22,7 @@ export default class HomePage extends Component{
       audioFile:null,
       messages:[{
         message:'Welcome to your private therapy',
-        user:'Therapy bot'
+        user:'Therapy Bot'
       }],
     }
   }
@@ -42,19 +44,43 @@ export default class HomePage extends Component{
     })
     .then((responseJson)=>{
       let tmp = this.state.messages.slice()
-      tmp.push({message:responseJson.activities[1].text, user: 'Therapy Bot'})
-      this.setState({messages:tmp, inputTxt:''})
-      document.getElementById('inputTxt').value=''
-
+      tmp.push({
+        message:'You seem to be full of ' + mood + ' today, what happened?',
+        user:'Therapy Bot'
+      })
+      this.setState({messages:tmp})
     })
-    .catch((error) => {
-        console.error(error);
-    });
   }
+  // getMessage(){
+  //   return fetch('https://directline.botframework.com/v3/directline/conversations/'+this.state.conversationId+'/activities?'+this.state.activityId, {
+  //       method: 'GET',
+  //       headers: {
+  //       'Authorization': 'Bearer '+this.state.token
+  //       },
+  //   })
+  //   .then((response) => {
+  //     if (response.status != 200){
+  //         return
+  //     }
+  //     else{
+  //         return response.json();
+  //     }
+  //   })
+  //   .then((responseJson)=>{
+  //     let tmp = this.state.messages.slice()
+  //     tmp.push({message:responseJson.activities[1].text, user: 'Therapy Bot'})
+  //     this.setState({messages:tmp, inputTxt:''})
+  //     document.getElementById('inputTxt').value=''
+  //
+  //   })
+  //   .catch((error) => {
+  //       console.error(error);
+  //   });
+  // }
   startActivity(){
 
     // let url = 'https://directline.botframework.com/v3/directline/conversations/'+this.state.conversationId+'/activities'
-    let url = 'http://localhost:3000/message'
+    let url = 'http://54.186.71.52:3000/message'
     return fetch(url, {
         method: 'POST',
         headers: {
@@ -67,7 +93,6 @@ export default class HomePage extends Component{
         })
       })
     .then((response) => {
-      console.log(response)
       if (response.status != 200){
           return
       }
@@ -81,6 +106,9 @@ export default class HomePage extends Component{
         tmp.push({message:responseJson[0], user: 'Therapy Bot'})
         this.setState({messages:tmp, inputTxt:''})
         document.getElementById('inputTxt').value=''
+        chatBoxField = document.getElementById("chatBox");
+        if (chatBoxField)
+          chatBoxField.scrollTop = chatBoxField.scrollHeight - chatBoxField.clientHeight;
       }
 
     })
@@ -113,15 +141,15 @@ export default class HomePage extends Component{
     });
   }
   componentWillMount() {
-    this.getToken()
-    axios({
-      url: 'https://directline.botframework.com/v3/directline/tokens/generate',
-      method: 'post',
-      headers: {'Authorization': 'Bearer P5biGMHmc-I.cwA.NNs.x3PH-GapGinTLgJaIxrYOtUhFnRuGcRS9GbncMKG3Ew'}
-    })
-    .then(response => response.data)
-    .then(data => this.setState({token: data.token, conversationId: data.conversationId}))
-    .catch(error => this.setState({error}))
+    // this.getToken()
+    // axios({
+    //   url: 'https://directline.botframework.com/v3/directline/tokens/generate',
+    //   method: 'post',
+    //   headers: {'Authorization': 'Bearer P5biGMHmc-I.cwA.NNs.x3PH-GapGinTLgJaIxrYOtUhFnRuGcRS9GbncMKG3Ew'}
+    // })
+    // .then(response => response.data)
+    // .then(data => this.setState({token: data.token, conversationId: data.conversationId}))
+    // .catch(error => this.setState({error}))
   }
 
   onStop(recordedBlob){
@@ -156,32 +184,32 @@ export default class HomePage extends Component{
   }
 
   render(){
-    if (this.state.token === '') {
-      return (
-        <div style={{textAlign: 'center'}}>
-          Loading ...
-        </div>
-      )
-    }
-
-    if (this.state.error !== '') {
-      return (
-        <p>{this.state.error}</p>
-      )
-    }
+    // if (this.state.token === '') {
+    //   return (
+    //     <div style={{textAlign: 'center'}}>
+    //       Loading ...
+    //     </div>
+    //   )
+    // }
+    //
+    // if (this.state.error !== '') {
+    //   return (
+    //     <p>{this.state.error}</p>
+    //   )
+    // }
 
     return(
       <div className='container'>
-        <h1>Therapeautic Chatbot</h1>
-        <div><WebCamComponent /></div>
-        <div className="chatbox">
+        <h1 className='animated pulse infinite'>Therapeautic Chatbot</h1>
+        <div><WebCamComponent setMood={this.setMood.bind(this)}/></div>
+        <div id='chatBox' className="chatbox animated slideInUp">
           {this.state.messages.map((ele, key)=>(
               <div key={key} style={{marginLeft:'20px', marginTop:'10px', marginRight:'20px',
               textAlign: ele.user==='you'?'right':'left'}}>{ele.user} : {ele.message}</div>
           ))}
         </div>
 
-        <div className='inputField'>
+        <div className='inputField animated slideInUp'>
           <input id='inputTxt' onKeyPress={this.handleKeyPress.bind(this)}
           onChange={(txt)=>this.setState({inputTxt: txt.target.value})} type='text'/>
           <div onClick={this.sendMsg.bind(this)} className='sendBtn'>Send</div>
