@@ -6,7 +6,7 @@ const cors = require('cors')
 const fs = require('fs')
 const upload = require('express-fileupload')
 
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 4150
 const app  = express()
 app.use(bodyParser.json())
 app.use(cors())
@@ -27,7 +27,7 @@ app.post('/image', (req, res) => {
 app.post('/audio', (req, res) => {
     console.log(req.body)
 
-    
+
 })
 
 app.listen(PORT, () => console.log(`Server is listening on PORT ${PORT}`))
