@@ -52,8 +52,9 @@ html{
 
 
 .chatbox {
-  min-height: 500px;
+  height: 500px;
   width: 75%;
+  overflow: auto;
   background-color: #efefef;
 }
 .inputField{

@@ -13,20 +13,7 @@ const app  = express()
 app.use(bodyParser.json())
 app.use(cors())
 app.use(upload())
-//
-// var authorization = new watson.AuthorizationV1({
-//   username: 'jacobgdt@gmail.com',
-//   password: 'Hackthenorth2017',
-//   url: watson.TextToSpeechV1.URL
-// });
-//
-// authorization.getToken(function (err, token) {
-//   if (!token) {
-//     console.log('error:', err);
-//   } else {
-//     console.log(token)
-//   }
-// });
+app.use(express.static(path.resolve('userPictures')))
 
 var conversation = new ConversationV1({
   username: 'ad4cbed8-e7b3-469c-a515-f41d51702104',
@@ -39,8 +26,17 @@ app.get('/', (req, res)=>{
   res.send('welcome')
 })
 app.post('/image', (req, res) => {
-    console.log(req.body)
-    console.log(Object.keys(req.body.image))
+    console.log(req.files)
+    uploadFile = req.files.photo
+    uploadFile.mv('./userPictures/'+uploadFile.name, function(err) {
+        if (err) {
+		        console.log(err)
+            res.status(500).send(err);
+        }
+        else {
+            res.status(200).json('File uploaded!');
+        }
+    });
     // fs.writeFile('./images/emotion.jpg', image, err => {
     //     if (err) console.log(err)
 
@@ -57,7 +53,6 @@ app.post('/message', (req, res)=>{
        if (err) {
          console.error(err);
        } else {
-         console.log(JSON.stringify(response, null, 2));
          res.json(response.output.text)
        }
   });
