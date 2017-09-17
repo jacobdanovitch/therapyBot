@@ -3,8 +3,7 @@ import axios from 'axios'
 import {Link} from "react-router";
 import {ReactMic} from 'react-mic';
 // import 'isomorphic-fetch'
-let timer
-export default class First extends Component{
+export default class HomePage extends Component{
   constructor(){
     super()
     this.state={
@@ -14,7 +13,12 @@ export default class First extends Component{
       timeForToken: 1800,
       maxRecordingTime: 15,
       timeElapsed: 0,
-      error: ''
+      inputTxt:'',
+      error: '',
+      messages:[{
+        message:'Welcome to your private therapy',
+        user:'your therapy bot'
+      }],
     }
   }
   componentWillMount() {
@@ -29,13 +33,6 @@ export default class First extends Component{
   }
 
   componentDidMount() {
-    timer = setInterval( () => {
-      if (this.state.timeForToken === 0)
-        return
-      this.setState({
-        timeForToken: this.state.timeForToken-1
-      })
-    }, 1000);
   }
 
 
@@ -47,7 +44,24 @@ export default class First extends Component{
     this.setState({timeElapsed: 0})
     console.log('recordedBlob is: ', recordedBlob);
   }
-
+  // renderMessages(){
+  //   this.state.messages.map((ele, key)=>{
+  //     return(
+  //       <div key={key}>{ele.message}</div>
+  //     )
+  //   })
+  // }
+  handleKeyPress(event){
+    if(event.key == 'Enter'){
+      this.sendMsg()
+    }
+  }
+  sendMsg(){
+    let tmp = this.state.messages.slice()
+    tmp.push({message:this.state.inputTxt, user: 'you'})
+    this.setState({messages:tmp, inputTxt:''})
+    document.getElementById('inputTxt').value=''
+  }
   render(){
     if (this.state.token === '') {
       return (
@@ -67,7 +81,10 @@ export default class First extends Component{
       <div className='container'>
         <h1>Therapeautic Chatbot</h1>
         <div className="chatbox">
-
+          {this.state.messages.map((ele, key)=>(
+              <div key={key} style={{marginLeft:'20px', marginTop:'10px', marginRight:'20px',
+              textAlign: ele.user==='you'?'right':'left'}}>{ele.user} : {ele.message}</div>
+          ))}
         </div>
         {this.state.record?<div className='micDiv'>
           <ReactMic
@@ -79,8 +96,9 @@ export default class First extends Component{
 
         </div>:null}
         <div className='inputField'>
-          <input type='text'/>
-          <div className='sendBtn'>Send</div>
+          <input id='inputTxt' onKeyPress={this.handleKeyPress.bind(this)}
+          onChange={(txt)=>this.setState({inputTxt: txt.target.value})} type='text'/>
+          <div onClick={this.sendMsg.bind(this)} className='sendBtn'>Send</div>
           <div className='mic' onClick={()=>{
             this.setState({record:!this.state.record})
             if (this.state.buttonTxt==='Start') {
