@@ -68,7 +68,7 @@ export default class First extends Component{
     return(
       <div className='container'>
         <h1>Therapeautic Chatbot</h1>
-        <div><WebCamComponent /></div>
+        <div><WebCamComponent/></div>
         <div className="chatbox">
 
         </div>
@@ -94,8 +94,6 @@ export default class First extends Component{
             }
           }}/>
         </div>
-
-
       </div>
 
     );
