@@ -65,7 +65,7 @@ export default class HomePage extends Component{
   startActivity(){
 
     // let url = 'https://directline.botframework.com/v3/directline/conversations/'+this.state.conversationId+'/activities'
-    let url = 'http://localhost:3000/message'
+    let url = 'http://54.186.71.52:3000/message'
     return fetch(url, {
         method: 'POST',
         headers: {
@@ -142,7 +142,7 @@ export default class HomePage extends Component{
     body.append('fname', 'communication.wav')
     body.append('audio', recordedBlob)
 
-    return fetch('http://localhost:3000/audio',
+    return fetch('http://54.186.71.52:3000/audio',
     // fetch('')
       {
         method: 'POST',
