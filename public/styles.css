@@ -1,12 +1,10 @@
 *{
-  overflow: hidden;
   font-family: 'Avenir', 'Century Gothic';
 
 }
 body{
   width: 100%;
   min-height: 100%;
-  overflow: hidden;
 }
 html{
   width: 100%;
@@ -22,13 +20,15 @@ html{
   width: 100%;
 }
 .mic{
-  margin-top: 10px;
-  background-size: cover;
+  background-size: contain;
+  background-repeat: no-repeat;
   background-image: url('images/startRecord.ico');
-  width: 50px;
-  height: 50px;
+  width: 5%;
+  height: 40px;
   cursor: pointer;
-  margin-left: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-right: 10px;
   -webkit-transition: .1s ease-in-out;
   -moz-transition: .1s ease-in-out;
@@ -49,17 +49,43 @@ html{
   flex-direction: column;
 }
 
-.container * {
-  margin-top: 15px;
-}
+
 
 .chatbox {
   min-height: 500px;
   width: 75%;
-  border: 1px solid black;
-  border-radius: 2px;
+  background-color: #efefef;
 }
-
+.inputField{
+  width: 75%;
+  margin-top: 2px;
+  height: 50px;
+  align-items: center;
+  display: flex;
+  background-color: #ccc;
+  margin-bottom: 20px;
+}
+.inputField input{
+  width: 80%;
+  font-size: 15px;
+  padding-left: 10px;
+  height: 90%;
+}
+.sendBtn{
+  width: 15%;
+  height: 95%;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.micDiv{
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
 .soundWave {
   position: absolute;
   bottom: 10px;
