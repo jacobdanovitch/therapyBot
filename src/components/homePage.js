@@ -4,8 +4,6 @@ import {Link} from "react-router";
 import {ReactMic} from 'react-mic';
 import WebCamComponent from './webcam'
 import 'isomorphic-fetch'
-var toWav = require('audiobuffer-to-wav')
-var audioContext = new (window.AudioContext || window.webkitAudioContext)()
 
 export default class HomePage extends Component{
   constructor(){
@@ -127,27 +125,16 @@ export default class HomePage extends Component{
 
   onStop(recordedBlob){
     let body = new FormData();
+    let finalResult = ''
     body.append('fname', 'communication.wav')
     body.append('audio', recordedBlob)
-    // audioContext.decodeAudioData(recordedBlob, function (buffer) {
-    //   var wav = bufferToWav(buffer)
-    //   var blob = new window.Blob([ new DataView(wav) ], {
-    //     type: 'audio/wav'
-    //   })
-    //   body.append('name', blob)
-    //   // var url = window.URL.createObjectURL(blob)
-    //   // anchor.href = url
-    //   // anchor.download = 'audio.wav'
-    //   // window.URL.revokeObjectURL(url)
-    // }, function () {
-    //   throw new Error('Could not decode audio data.')
-    // })
 
-    fetch('http://localhost:3000/port',
+    fetch('https://speech.platform.bing.com/speech/recognition/interactive/cognitiveservices/v1?language=en-US',
+    // fetch('')
       {
         method: 'POST',
         headers:{
-         "Content-Type":'multipart/form-data'
+         "Authorization":'Bearer ' + this.state.voiceToken,
          } ,
          body :body
        }
@@ -195,7 +182,7 @@ export default class HomePage extends Component{
     return(
       <div className='container'>
         <h1>Therapeautic Chatbot</h1>
-        <div><WebCamComponent/></div>
+        <div><WebCamComponent /></div>
         <div className="chatbox">
           {this.state.messages.map((ele, key)=>(
               <div key={key} style={{marginLeft:'20px', marginTop:'10px', marginRight:'20px',
@@ -221,6 +208,7 @@ export default class HomePage extends Component{
             backgroundColor="#f75172" />
 
         </div>
+
       </div>
 
     );
