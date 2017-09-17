@@ -5,7 +5,6 @@ import {ReactMic} from 'react-mic';
 import WebCamComponent from './webcam'
 import 'isomorphic-fetch'
 var toWav = require('audiobuffer-to-wav')
-var audioContext = new (window.AudioContext || window.webkitAudioContext)()
 
 export default class HomePage extends Component{
   constructor(){
@@ -127,28 +126,27 @@ export default class HomePage extends Component{
 
   onStop(recordedBlob){
     let body = new FormData();
-    let finalResult = ''
     body.append('fname', 'communication.wav')
+    body.append('audio', recordedBlob)
+    // audioContext.decodeAudioData(recordedBlob, function (buffer) {
+    //   var wav = bufferToWav(buffer)
+    //   var blob = new window.Blob([ new DataView(wav) ], {
+    //     type: 'audio/wav'
+    //   })
+    //   body.append('name', blob)
+    //   // var url = window.URL.createObjectURL(blob)
+    //   // anchor.href = url
+    //   // anchor.download = 'audio.wav'
+    //   // window.URL.revokeObjectURL(url)
+    // }, function () {
+    //   throw new Error('Could not decode audio data.')
+    // })
 
-    audioContext.decodeAudioData(recordedBlob, function (buffer) {
-      var wav = bufferToWav(buffer)
-      var blob = new window.Blob([ new DataView(wav) ], {
-        type: 'audio/wav'
-      })
-      body.append('name', blob)
-      // var url = window.URL.createObjectURL(blob)
-      // anchor.href = url
-      // anchor.download = 'audio.wav'
-      // window.URL.revokeObjectURL(url)
-    }, function () {
-      throw new Error('Could not decode audio data.')
-    })
-
-    fetch('https://speech.platform.bing.com/speech/recognition/interactive/cognitiveservices/v1?language=en-US',
+    fetch('http://localhost:3000/audio',
       {
         method: 'POST',
         headers:{
-         "Authorization":'Bearer ' + this.state.voiceToken
+        //  "Content-Type":'multipart/form-data'
          } ,
          body :body
        }
