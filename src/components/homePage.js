@@ -2,8 +2,10 @@ import React, {Component} from 'react';
 import axios from 'axios'
 import {Link} from "react-router";
 import {ReactMic} from 'react-mic';
+import WebCamComponent from './webcam'
+
 // import 'isomorphic-fetch'
-let timer
+
 export default class First extends Component{
   constructor(){
     super()
@@ -29,13 +31,13 @@ export default class First extends Component{
   }
 
   componentDidMount() {
-    timer = setInterval( () => {
-      if (this.state.timeForToken === 0)
-        return
-      this.setState({
-        timeForToken: this.state.timeForToken-1
-      })
-    }, 1000);
+    // timer = setInterval( () => {
+    //   if (this.state.timeForToken === 0)
+    //     return
+    //   this.setState({
+    //     timeForToken: this.state.timeForToken-1
+    //   })
+    // }, 1000);
   }
 
 
@@ -59,13 +61,14 @@ export default class First extends Component{
 
     if (this.state.error !== '') {
       return (
-        <p>{error}</p>
+        <p>{this.state.error}</p>
       )
     }
 
     return(
       <div className='container'>
         <h1>Therapeautic Chatbot</h1>
+        <div><WebCamComponent /></div>
         <div className="chatbox">
 
         </div>
