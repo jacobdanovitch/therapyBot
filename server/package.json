@@ -9,11 +9,16 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "audiobuffer-to-wav": "^1.0.0",
     "body-parser": "^1.18.1",
     "cors": "^2.8.4",
     "express": "^4.15.4",
     "express-fileupload": "^0.2.0",
+    "node-wav": "0.0.2",
     "request": "^2.81.0",
-    "request-promise": "^4.2.1"
+    "request-promise": "^4.2.1",
+    "watson-developer-cloud": "^2.39.0",
+    "wav": "^1.0.1",
+    "xhr": "^2.4.0"
   }
 }

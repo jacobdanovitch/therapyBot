@@ -51,22 +51,17 @@ export default class HomePage extends Component{
     });
   }
   startActivity(){
-    console.log(this.state.inputTxt)
-    console.log(this.state.conversationId)
-    console.log(this.state.token)
-    let url = 'https://directline.botframework.com/v3/directline/conversations/'+this.state.conversationId+'/activities'
-    console.log(url)
+
+    // let url = 'https://directline.botframework.com/v3/directline/conversations/'+this.state.conversationId+'/activities'
+    let url = 'http://localhost:3000/message'
     return fetch(url, {
         method: 'POST',
         headers: {
-        'Authorization': 'Bearer '+this.state.token,
-        'Content-Type':'application/json'
+        'Content-Type':'application/json',
+        'Accept':'application/json'
         },
         body:JSON.stringify({
-            type: "message",
-            from: {
-                id: "you"
-            },
+            user: 'you',
             text: this.state.inputTxt
         })
       })
@@ -80,9 +75,13 @@ export default class HomePage extends Component{
       }
     })
     .then((responseJson)=>{
-      console.log(responseJson)
-      this.setState({activityId:responseJson.id})
-      this.getMessage()
+      if (responseJson && responseJson.length > 0){
+        let tmp = this.state.messages.slice()
+        tmp.push({message:responseJson[0], user: 'Therapy Bot'})
+        this.setState({messages:tmp, inputTxt:''})
+        document.getElementById('inputTxt').value=''
+      }
+
     })
     .catch((error) => {
         console.error(error);
@@ -129,12 +128,12 @@ export default class HomePage extends Component{
     body.append('fname', 'communication.wav')
     body.append('audio', recordedBlob)
 
-    fetch('https://speech.platform.bing.com/speech/recognition/interactive/cognitiveservices/v1?language=en-US',
+    return fetch('http://localhost:3000/audio',
     // fetch('')
       {
         method: 'POST',
         headers:{
-         "Authorization":'Bearer ' + this.state.voiceToken,
+         "Content-Type":'multipart/form-data'
          } ,
          body :body
        }

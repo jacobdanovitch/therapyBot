@@ -37,7 +37,7 @@ export default class WebCamComponent extends Component {
           width={125}
           screenshotFormat="image/jpeg"
         />
-        <button onClick={this.capture}>Capture Photo</button>
+        <button onClick={this.capture} style={{marginBottom:'10px'}}>Capture Photo</button>
        </div>
     )
   }
