@@ -5,6 +5,10 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const fs = require('fs')
 const upload = require('express-fileupload')
+const toWav = require('audiobuffer-to-wav')
+const xhr = require('xhr')
+var context = new AudioContext()
+
 
 const PORT = process.env.PORT || 3000
 const app  = express()
@@ -26,7 +30,15 @@ app.post('/image', (req, res) => {
 
 app.post('/audio', (req, res) => {
     console.log(req.body)
+    let body = req.body 
 
+    // decode the MP3 into an AudioBuffer 
+    context.decodeAudioData(body, function (buffer) {
+        // encode AudioBuffer to WAV 
+        var wav = toWav(buffer)
+        
+        // do something with the WAV ArrayBuffer ... 
+    })
     
 })
 
