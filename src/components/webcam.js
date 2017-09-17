@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import Webcam from 'react-webcam'
+import axios from 'axios'
 
 export default class WebCamComponent extends Component {
   constructor(props) {
@@ -9,11 +10,19 @@ export default class WebCamComponent extends Component {
     }
 
     this.capture = () => {
-      let screenshot = this.webcam.getScreenshot()
-      console.log(screenshot)
-      // fetch('http://localhost:3000', {
+      let image = this.webcam.getScreenshot()
+      console.log(image)
+      let body = new FormData()
+      body.append('image', {name: image, type:'image/jpeg'})
+      body.append('Content-Type', 'image/jpeg')
 
-      // })
+      fetch('http://localhost:3000/image', {
+        method: 'POST',
+        body,
+      })
+      .then(res => res.json())
+      .then(data => console.log(data))
+      .catch(err => console.log(err))
     }
   }
 
@@ -21,9 +30,9 @@ export default class WebCamComponent extends Component {
     return (
       <div>
         <Webcam
-          style={{position: 'absolute', right: '0px', bottom:0, opacity:0}}
+          style={{position: 'absolute', right: '5%', opacity: '0'}}
           ref={this.setRef}
-          audio={false}
+          audio={true}
           height={100}
           width={125}
           screenshotFormat="image/jpeg"

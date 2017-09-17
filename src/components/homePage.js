@@ -195,7 +195,7 @@ export default class HomePage extends Component{
     return(
       <div className='container'>
         <h1>Therapeautic Chatbot</h1>
-        <div><WebCamComponent /></div>
+        <div><WebCamComponent/></div>
         <div className="chatbox">
           {this.state.messages.map((ele, key)=>(
               <div key={key} style={{marginLeft:'20px', marginTop:'10px', marginRight:'20px',
@@ -221,7 +221,6 @@ export default class HomePage extends Component{
             backgroundColor="#f75172" />
 
         </div>
-
       </div>
 
     );
